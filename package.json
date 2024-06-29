@@ -1,22 +1,47 @@
 {
   "name": "leetcode-javascript-solution",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Javascript solutions for leetcode problems.",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create:random": "node create/random.js",
+    "create": "node create/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishantsinghchandel/leetcode-javascript-solution.git"
+  },
+  "keywords": [
+    "leetcode",
+    "leetcode javascript solution"
+  ],
+  "author": "Nishant Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nishantsinghchandel/leetcode-javascript-solution/issues"
+  },
+  "homepage": "https://github.com/nishantsinghchandel/leetcode-javascript-solution#readme",
   "dependencies": {
+    "@nextui-org/react": "^2.4.2",
+    "@nextui-org/table": "^2.0.36",
+    "highlight.js": "^11.9.0",
+    "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.4"
+    "showdown": "^2.1.0"
   },
   "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.4"
+    "chalk": "^2.4.1",
+    "cheerio": "^1.0.0-rc.2",
+    "fs-extra": "^6.0.0",
+    "axios": "^0.18.0"
   }
 }
