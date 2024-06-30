@@ -1,10 +1,8 @@
-import { Inter } from "next/font/google";
+import { getProblemsByIdSlugRequest } from "@/lib/problem";
 import markdownRender from "@/lib/markdownRender";
 import Link from "next/link";
-import { getProblemsByIdSlugRequest } from "@/lib/problem";
 import "@/app/globals.css";
-import Head from "next/head";
-const inter = Inter({ subsets: ["latin"] });
+import Footer from "@/app/components/footer";
 
 async function getData(idOrSlug) {
   const res = await getProblemsByIdSlugRequest(idOrSlug); // Adjust the URL if needed
@@ -36,48 +34,55 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Problem({ params }) {
-  const { slug } = params;
+  let { slug } = params;
+  slug = slug.replace(".html", "");
   const problem = await getData(slug);
   if (!problem) {
-    return <div>Problem Not Found.</div>;
+    return (
+      <div className="flex justify-center items-center p-4">
+        <Link href={"/"}> Go Back</Link>
+        <h1>Problem Not Found.</h1>
+      </div>
+    );
   }
-  const { id, name, url, difficulty, tags, similarQuestions, content } =
-    problem;
+  const { id, name, difficulty, tags, similarQuestions, content } = problem;
 
   const codeContent = markdownRender(content);
 
   return (
-    <>
-      <div>
-        <header className="text-white">
-          <h1 className="text-xl mt-5 font-bold">{id + ". " + name}</h1>
-          <div className="row">
-            <div className="name text-sm dark:text-white text-gray">
-              Difficulty:
-            </div>
-            <div className="value">
-              <span className={`tag ${difficulty.slug} selected`}>
-                {difficulty.name}
-              </span>
-            </div>
+    <div>
+      <header>
+        <Link href={"/"} className="hover:text-[#409eff]">
+          {" "}
+          Go Back
+        </Link>
+        <h1 className="text-xl mt-5 font-bold">{id + ". " + name}</h1>
+        <div className="row">
+          <div className="name">Difficulty:</div>
+          <div className="value">
+            <span className={`tag ${difficulty.slug} selected`}>
+              {difficulty.name}
+            </span>
           </div>
-          <div className="row">
-            <div className="name">Related Topics:</div>
-            <div className="value">
-              <ul className="clearfix">
-                {tags?.map((item, index) => (
-                  <li key={index}>
-                    <span>{item.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        </div>
+        <div className="row">
+          <div className="name">Related Topics:</div>
+          <div className="value">
+            <ul className="clearfix">
+              {tags?.map((item, index) => (
+                <li key={index}>
+                  <span>{item.name}</span>
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
+        {similarQuestions.length > 0 && (
           <div className="row">
             <div className="name">Similar Questions:</div>
             <div className="value">
               <ul className="clearfix">
-                {similarQuestions?.map((item, index) => (
+                {similarQuestions.map((item, index) => (
                   <li key={index}>
                     <Link
                       href={{
@@ -91,19 +96,31 @@ export default async function Problem({ params }) {
               </ul>
             </div>
           </div>
-        </header>
-        <main>
-          <article
-            className="markdown-body"
-            dangerouslySetInnerHTML={{ __html: codeContent }}
-          ></article>
-        </main>
-        <footer>
-          {/* <a href={url.github} target="_blank">
-          <img src={url.home + "/static/img/github.png"} alt="github" />
-        </a> */}
-        </footer>
-      </div>
-    </>
+        )}
+        <div className="row">
+          <div className="name">Leetcode:</div>
+          <div className="value">
+            <ul className="clearfix">
+              <li>
+                <Link
+                  className="clearfix"
+                  taget="_blank"
+                  href={`https://leetcode.com/problems/${slug}/description/`}
+                >
+                  {slug}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <main>
+        <article
+          className="markdown-body"
+          dangerouslySetInnerHTML={{ __html: codeContent }}
+        />
+      </main>
+      <Footer />
+    </div>
   );
 }

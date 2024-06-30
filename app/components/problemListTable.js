@@ -15,13 +15,11 @@ import {
   DropdownItem,
   Pagination,
 } from "@nextui-org/react";
-// import { PlusIcon } from "./PlusIcon";
-// import { VerticalDotsIcon } from "./VerticalDotsIcon";
 import { SearchIcon } from "@/app/components/searchIcon";
 import { ChevronDownIcon } from "@/app/components/chevronDownIcon";
-// import { users, statusOptions } from "./data";
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
+import Footer from "./footer";
 
 const columns = [
   { name: "ID", uid: "id", sortable: true },
@@ -286,11 +284,6 @@ function App({ list, tagList }) {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        {/* <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
-        </span> */}
         <Pagination
           isCompact
           showControls
@@ -323,43 +316,46 @@ function App({ list, tagList }) {
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
   return (
-    <Table
-      aria-label="Leetcode problems table"
-      isHeaderSticky
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      classNames={{
-        wrapper: "max-h-full",
-      }}
-      selectedKeys={selectedKeys}
-      // selectionMode="multiple"
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader columns={headerColumns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table
+        aria-label="Leetcode problems table"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        classNames={{
+          wrapper: "max-h-full",
+        }}
+        selectedKeys={selectedKeys}
+        // selectionMode="multiple"
+        sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        onSelectionChange={setSelectedKeys}
+        onSortChange={setSortDescriptor}
+      >
+        <TableHeader columns={headerColumns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+              allowsSorting={column.sortable}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody emptyContent={"No users found"} items={sortedItems}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <Footer />
+    </>
   );
 }
 
