@@ -41,7 +41,7 @@ const getDescription = (description) => {
     },
     {
       regexp: /<code>(.*?)<\/code>/gi,
-      replacer: (_, $1) => `\`${$1}\``,
+      replacer: (_, $1) => `\`\`\`javascript\n${$1}\n\`\`\``,
     },
     {
       regexp: /<i>(.*?)<\/i>/gi,
@@ -83,7 +83,10 @@ const getPath = (id, name) => {
   const path = require("path");
   const left = Math.floor((id - 1) / 100);
   const folder = `${left === 0 ? "001" : left * 100 + 1}-${(left + 1) * 100}`;
-  return path.resolve(__dirname + "./../app/md/", `${folder}/${id}. ${name}.md`);
+  return path.resolve(
+    __dirname + "./../app/md/",
+    `${folder}/${id}. ${name}.md`
+  );
 };
 
 const getName = (url) => {
