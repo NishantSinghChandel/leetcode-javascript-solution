@@ -3,14 +3,17 @@ const create = (data) => {
   const fse = require("fs-extra");
   const path = require("path");
   const chalk = require("chalk");
+  const topicList = data.topicTags.map((t) => t.name);
   const pageData = {
     id: data.questionFrontendId || data.questionId,
     name: data.questionTitle,
-    difficulty: data.difficulty,
+    difficulty: `${data.difficulty}`,
     relatedTopics: data.topicTags.map((t) => t.name).join(", "),
+    relatedTopicList: topicList,
     similarQuestions: JSON.parse(data.similarQuestions)
       .map((q) => q.title)
       .join(", "),
+    similarQuestionList: data.similarQuestions,
     description: getDescription(data.content),
   };
   const dir = getPath(pageData.id, pageData.name.replace(/\?/g, ""));
@@ -83,7 +86,10 @@ const getPath = (id, name) => {
   const path = require("path");
   const left = Math.floor((id - 1) / 100);
   const folder = `${left === 0 ? "001" : left * 100 + 1}-${(left + 1) * 100}`;
-  return path.resolve(__dirname + "./../app/md/", `${folder}/${id}. ${name}.md`);
+  return path.resolve(
+    __dirname + "./../app/md/",
+    `${folder}/${id}. ${name}.md`
+  );
 };
 
 const getName = (url) => {
