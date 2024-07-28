@@ -5,17 +5,21 @@ import "@/app/globals.css";
 import Footer from "@/app/components/footer";
 
 async function getData(idOrSlug) {
-  const res = await getProblemsByIdSlugRequest(idOrSlug); // Adjust the URL if needed
+  try {
+    const res = await getProblemsByIdSlugRequest(idOrSlug); // Adjust the URL if needed
 
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
+    // The return value is *not* serialized
+    // You can return Date, Map, Set, etc.
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (error) {
+    console.log(error);
   }
-
-  return res.json();
 }
 
 export async function generateMetadata({ params }) {
